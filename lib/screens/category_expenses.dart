@@ -16,8 +16,8 @@ class CategoryExpenses extends StatelessWidget {
         child: FutureBuilder(
             future: DatabaseHelper.instance.queryExpensesByCategory(category),
             builder: (context, snapshot) {
-              List expenseList = snapshot.data;
               if (snapshot.hasData) {
+                List expenseList = snapshot.data;
                 return ListView.builder(
                     itemCount: expenseList.length,
                     itemBuilder: (context, index) {
@@ -49,7 +49,7 @@ class CategoryExpenses extends StatelessWidget {
                       );
                     });
               }
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }),
       ),
     );

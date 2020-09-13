@@ -2,6 +2,7 @@ import 'package:finance_app/db_services/db_helper.dart';
 import 'package:finance_app/models/txn_data.dart';
 import 'package:finance_app/services_and_utilities/konstants_variable_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class AddIncome extends StatefulWidget {
@@ -67,7 +68,11 @@ class _AddIncomeState extends State<AddIncome> {
                 children: [
                   Center(child: Text('Amount')),
                   TextFormField(
-                    keyboardType: TextInputType.number,
+                    keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      BlacklistingTextInputFormatter(RegExp('[\\-|\\, ]'))
+                    ],
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       prefix: Text(

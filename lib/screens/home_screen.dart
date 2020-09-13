@@ -18,13 +18,13 @@ class HomeScreen extends StatefulWidget {
 double income = 0.0;
 double budget = 0.0;
 double expenses = 0.0;
+List<TxnCategory> categoryList;
+List<TransactionData> expTransactionList, incomeTransactionList;
+double budgetSpent;
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    List<TxnCategory> categoryList;
-    List<TransactionData> expTransactionList, incomeTransactionList;
-    double budgetSpent;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal, //Color(0XFF2b13dc),
@@ -77,13 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               totalExpenditure: expenses,
                               totalBudget: budget);
                         }
-                        return Center(
-                            child: Container(
-                          child: Text('loading'),
-                        ));
+                        return Container();
                       });
                 }
-                return Center(child: Container(child: Text('loading')));
+                return Center(child: CircularProgressIndicator());
               }),
           Container(
             padding: EdgeInsets.only(left: 5, right: 5),
@@ -105,10 +102,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           'INCOME',
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: selectedButton == 0
+                                  ? Colors.white
+                                  : Colors.black),
                         ),
                         onPressed: () {
-                          transactionType = 'Income';
                           setState(() {
                             selectedButton = 0;
                           });
@@ -121,7 +121,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Text(
                           'EXPENSES',
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: selectedButton == 1
+                                  ? Colors.white
+                                  : Colors.black),
                         ),
                         onPressed: () {
                           transactionType = 'Expense';
@@ -138,41 +142,49 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Card(
                     //elevation: 20,
                     child: selectedButton == 0
-                        ? StreamBuilder<List<TransactionData>>(
+                        ? StreamBuilder(
                             stream: _fetchIncomeData(),
                             builder: (context, snapshot) {
-                              incomeTransactionList = snapshot.data;
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return IncomeTile(
-                                    incomeDesc: incomeTransactionList[index]
-                                        .txnDescription,
-                                    incomeAmount:
-                                        incomeTransactionList[index].txnAmount,
-                                    editIncome: () {
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) {
-                                        return UpdateIncome();
-                                      }));
-                                    },
-                                  );
-                                },
-                                itemCount: incomeTransactionList == null
-                                    ? 0
-                                    : incomeTransactionList.length,
-                              );
-                            })
+                              if (snapshot.hasData) {
+                                incomeTransactionList =
+                                    snapshot.data.reversed.toList();
+
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return IncomeTile(
+                                      incomeDesc: incomeTransactionList[index]
+                                          .txnDescription,
+                                      incomeAmount: incomeTransactionList[index]
+                                          .txnAmount,
+                                      editIncome: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return UpdateIncome();
+                                        }));
+                                      },
+                                    );
+                                  },
+                                  itemCount: incomeTransactionList == null
+                                      ? 0
+                                      : incomeTransactionList.length,
+                                );
+                              }
+                              return Center(child: CircularProgressIndicator());
+                            },
+                          )
                         : StreamBuilder(
                             stream: _fetchCategoryData(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                categoryList = snapshot.data;
+                                categoryList = snapshot.data.reversed.toList();
                                 return StreamBuilder(
                                   stream: _fetchExpenseData(),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData) {
-                                      expTransactionList = snapshot.data;
+                                      expTransactionList =
+                                          snapshot.data.reversed.toList();
                                       return ListView.builder(
                                         shrinkWrap: true,
                                         itemBuilder: (context, index) {
@@ -215,10 +227,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             : categoryList.length,
                                       );
                                     }
-                                    return Container(
-                                      child: Center(
-                                          child: Text('waiting for data...')),
-                                    );
+                                    return Center(
+                                        child: CircularProgressIndicator());
                                   },
                                 );
                               }
