@@ -3,6 +3,7 @@ import 'package:finance_app/models/txn_data.dart';
 import 'package:finance_app/services_and_utilities/konstants_variable_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class AddCategory extends StatefulWidget {
   @override
@@ -112,7 +113,8 @@ class _AddCategoryState extends State<AddCategory> {
             Navigator.pop(context);
           });
         } catch (e) {
-          print(e);
+//          Get.defaultDialog(title: 'Error', content: Text(e));
+          catDescController.text = e;
         }
       }
     }

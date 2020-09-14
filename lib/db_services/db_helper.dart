@@ -45,7 +45,7 @@ class DatabaseHelper {
     await db.execute(
         'CREATE TABLE $_tableName($columnId INTEGER PRIMARY KEY,$columnType TEXT NOT NULL,$columnAmount REAL NOT NULL,$columnCategory TEXT,$columnDesc TEXT NOT NULL,$columnDate TEXT NOT NULL, $columnTime TEXT NOT NULL)');
     await db.execute(
-        'CREATE TABLE $_catTableName( $catColumnId INTEGER PRIMARY KEY,$catColumnDesc  UNIQUE,$catColumnBudget REAL NOT NULL)');
+        'CREATE TABLE $_catTableName( $catColumnId INTEGER PRIMARY KEY,$catColumnDesc TEXT NOT NULL UNIQUE,$catColumnBudget REAL NOT NULL)');
   }
 
 //  {

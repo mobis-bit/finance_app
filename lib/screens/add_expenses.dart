@@ -66,7 +66,7 @@ class _AddExpensesState extends State<AddExpenses> {
                     children: [
                       Center(child: Text('Description')),
                       TextFormField(
-                        autofocus: true,
+//                        autofocus: true,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
                           hintText: 'enter Description',
@@ -177,9 +177,18 @@ class _AddExpensesState extends State<AddExpenses> {
                           textAlign: TextAlign.center,
                           enabled: false,
                           decoration: InputDecoration(
-                              hintText: transactionCategory == null
-                                  ? 'Pick a category...'
-                                  : transactionCategory),
+                            hintText: transactionCategory == null
+                                ? 'Pick a category...'
+                                : transactionCategory,
+                            hintStyle: TextStyle(
+                                fontSize: 18,
+                                color: transactionCategory == null
+                                    ? null
+                                    : transactionCategory ==
+                                            'Pick a category...'
+                                        ? null
+                                        : Colors.black),
+                          ),
                         ),
                       )
                     ],
