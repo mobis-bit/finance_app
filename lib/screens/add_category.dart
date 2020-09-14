@@ -67,7 +67,7 @@ class _AddCategoryState extends State<AddCategory> {
               validator: (value) => value.isEmpty ? 'Input Budget' : null,
             ),
             SizedBox(
-              height: 10,
+              height: 10.0,
             ),
           ],
         ),
