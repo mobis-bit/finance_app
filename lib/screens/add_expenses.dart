@@ -191,7 +191,7 @@ class _AddExpensesState extends State<AddExpenses> {
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
                         inputFormatters: [
-                          BlacklistingTextInputFormatter(RegExp('[\\-|\\, ]'))
+                          FilteringTextInputFormatter.deny(RegExp('[\\-|\\, ]'))
                         ],
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(

@@ -30,14 +30,14 @@ class _AddCategoryState extends State<AddCategory> {
                   'Add Category',
                   style: TextStyle(
                       fontSize: 20,
-                      color: Colors.black,
+                      color: Colors.teal,
                       fontWeight: FontWeight.bold),
                 ),
                 FlatButton(
                   child: Text(
                     'SAVE',
                     style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.teal,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
@@ -47,24 +47,45 @@ class _AddCategoryState extends State<AddCategory> {
                 )
               ],
             ),
-            TextFormField(
-              autofocus: true,
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                labelText: 'Description',
+            SizedBox(height: 20),
+            Theme(
+              data: ThemeData(
+                primaryColor: Colors.teal,
+                primaryColorDark: Colors.red,
               ),
-              controller: catDescController,
-              validator: (value) => value.isEmpty ? 'Input Description' : null,
+              child: TextFormField(
+                autofocus: true,
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red)),
+                  labelText: 'Description',
+                ),
+                controller: catDescController,
+                validator: (value) =>
+                    value.isEmpty ? 'Input Description' : null,
+              ),
             ),
-            TextFormField(
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
-              inputFormatters: [
-                BlacklistingTextInputFormatter(RegExp('[\\-|\\, ]'))
-              ],
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(labelText: 'Budget'),
-              controller: catBudgetController,
-              validator: (value) => value.isEmpty ? 'Input Budget' : null,
+            SizedBox(height: 10),
+            Theme(
+              data: ThemeData(
+                primaryColor: Colors.teal,
+                primaryColorDark: Colors.red,
+              ),
+              child: TextFormField(
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(RegExp('[\\-|\\, ]'))
+                ],
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red)),
+                  labelText: 'Budget',
+                ),
+                controller: catBudgetController,
+                validator: (value) => value.isEmpty ? 'Input Budget' : null,
+              ),
             ),
             SizedBox(
               height: 10.0,
